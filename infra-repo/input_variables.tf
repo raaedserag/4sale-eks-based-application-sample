@@ -18,3 +18,7 @@ variable "subnet_private_b_cidr_block" {
   description = "CIDR Block for private subnet of AZ b"
   type        = string
 }
+variable "eks_cluster_name" {
+  description = "Name for  EKS cluster"
+  type        = string
+}
