@@ -14,6 +14,9 @@ init:
 plan:
 	terraform plan 
 deploy:
-	terraform apply -auto-approve
+	terraform apply -auto-approve -target=module.eks_vpc
+	terraform apply -auto-approve -target=module.eks_cluster
+	terraform import module.k8s_config.kubernetes_config_map.aws_auth kube-system/aws-auth || true
+	terraform apply -auto-approve -target=module.k8s_config
 destroy:
 	terraform destroy -auto-approve

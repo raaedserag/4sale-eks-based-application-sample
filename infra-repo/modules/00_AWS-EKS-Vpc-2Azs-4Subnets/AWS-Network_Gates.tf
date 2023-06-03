@@ -6,7 +6,7 @@ resource "aws_internet_gateway" "public_gw" {
 # NATS
 # NAT A
 resource "aws_eip" "nat_a_eip" {
-  vpc = true
+  domain = "vpc"
 }
 
 resource "aws_nat_gateway" "nat_a" {
@@ -17,7 +17,7 @@ resource "aws_nat_gateway" "nat_a" {
 
 # NAT B
 resource "aws_eip" "nat_b_eip" {
-  vpc = true
+  domain = "vpc"
 }
 
 resource "aws_nat_gateway" "nat_b" {

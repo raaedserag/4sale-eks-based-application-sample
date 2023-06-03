@@ -46,3 +46,15 @@ module "eks_cluster" {
     module.eks_vpc.subnet_public_b.id
   ]
 }
+
+# K8s Configuration Module
+module "k8s_config" {
+  source = "./modules/02_k8s-configuration"
+  k8s_cluster_config = {
+    endpoint               = module.eks_cluster.simple_http_cluster.endpoint
+    cluster_ca_certificate = module.eks_cluster.simple_http_cluster.certificate_authority[0].data
+    name                   = module.eks_cluster.simple_http_cluster.id
+    arn                    = module.eks_cluster.simple_http_cluster.arn
+  }
+  workernodes_role_arn = module.eks_cluster.workernodes_role_arn
+}
