@@ -1,4 +1,5 @@
 import expressApi from "./routes/express-api.js"
+import sequelizeClient from "./db/sequelize-client.js";
 
 import { port, host, environment} from "./config/configuration.js";
 
@@ -9,4 +10,5 @@ import { port, host, environment} from "./config/configuration.js";
         .on('SIGINT', () => process.exit(0))
         
         expressApi.listen(port, host, () => console.log(`Server started as ${environment} on http://${host}:${port}}`));
+        await sequelizeClient.initialize()
 })();
