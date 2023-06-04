@@ -58,11 +58,6 @@ module "eks_cluster" {
 module "k8s_config" {
   source    = "./modules/02_k8s-configuration"
   namespace = var.namespace
-  k8s_cluster_config = {
-    endpoint               = module.eks_cluster.eks_cluster.endpoint
-    cluster_ca_certificate = module.eks_cluster.eks_cluster.certificate_authority[0].data
-    name                   = module.eks_cluster.eks_cluster.id
-    arn                    = module.eks_cluster.eks_cluster.arn
-  }
+  k8s_cluster_config = module.eks_cluster.eks_cluster_config
   workernodes_role_arn = module.eks_cluster.workernodes_role_arn
 }
