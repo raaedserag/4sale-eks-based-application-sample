@@ -18,5 +18,7 @@ deploy:
 	terraform apply -auto-approve -target=module.eks_cluster
 	terraform import module.k8s_config.kubernetes_config_map.aws_auth kube-system/aws-auth || true
 	terraform apply -auto-approve -target=module.k8s_config
+	terraform apply -auto-approve -target=module.staging_environment
+	terraform apply -auto-approve -target=module.production_environment
 destroy:
 	terraform destroy -auto-approve
