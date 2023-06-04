@@ -16,6 +16,20 @@ resource "aws_iam_role" "eks_ec2_nodes_service_role" {
     }]
     Version = "2012-10-17"
   })
+  inline_policy {
+    name = "my_inline_policy"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action   = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+      ]
+    })
+  }
 }
 
 
@@ -29,11 +43,11 @@ resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.main_eks.name
   node_group_name = "${var.namespace}-eks-node-group"
   node_role_arn   = aws_iam_role.eks_ec2_nodes_service_role.arn
-  subnet_ids = var.eks_private_subnets
-  ami_type       = "AL2_x86_64"
-  capacity_type  = "ON_DEMAND"
-  disk_size      = 20
-  instance_types = ["t3.medium"]
+  subnet_ids      = var.eks_private_subnets
+  ami_type        = "AL2_x86_64"
+  capacity_type   = "ON_DEMAND"
+  disk_size       = 20
+  instance_types  = ["t3.medium"]
   scaling_config {
     desired_size = 2
     max_size     = 2
