@@ -1,15 +1,19 @@
 #!make
 include .env
 export $(shell sed 's/=.*//' .env)
+export TF_VAR_namespace=$(CUSTOMER)
 
 init:
 	aws s3api create-bucket \
 		--bucket $(TERRAFORM_BACKEND_S3_BUCKET) \
-		--region $(TERRAFORM_BACKEND_S3_REGION) || true; \
+		--region $(TERRAFORM_BACKEND_S3_REGION) || true;
+	aws s3api put-bucket-encryption \
+		--bucket $(TERRAFORM_BACKEND_S3_BUCKET) \
+		--server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}' || true;
 	
 	terraform init \
 		-backend-config="bucket=$(TERRAFORM_BACKEND_S3_BUCKET)" \
-		-backend-config="key=$(TERRAFORM_BACKEND_S3_KEY)"\
+		-backend-config="key=$(CUSTOMER)-iac.tfstate"\
 		-backend-config="region=$(TERRAFORM_BACKEND_S3_REGION)"
 plan:
 	terraform plan 
