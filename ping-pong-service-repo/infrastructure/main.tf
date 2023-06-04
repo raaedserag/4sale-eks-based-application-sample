@@ -40,3 +40,9 @@ provider "kubernetes" {
     "cni\\.projectcalico\\.org\\/podIPs",
   ]
 }
+
+module "shared_app_setup"{
+  source = "./modules/00_shared-app-setup"
+  namespace = var.namespace
+  app_name = var.app_name
+}
