@@ -46,3 +46,22 @@ module "shared_app_setup"{
   namespace = var.namespace
   app_name = var.app_name
 }
+module "staging_app_setup" {
+  source = "./modules/01_environment-app-setup"
+  namespace = var.namespace
+  app_name = var.app_name
+  environment_name = "staging"
+  app_repository_url = module.shared_app_setup.app_ecr_repository_url
+  replicas_count = var.replicas_count
+  static_environment_variables = var.static_environment_variables
+}
+
+module "production_app_setup" {
+  source = "./modules/01_environment-app-setup"
+  namespace = var.namespace
+  app_name = var.app_name
+  environment_name = "production"
+  app_repository_url = module.shared_app_setup.app_ecr_repository_url
+  replicas_count = var.replicas_count
+  static_environment_variables = var.static_environment_variables
+}

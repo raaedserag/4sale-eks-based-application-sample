@@ -3,8 +3,16 @@ variable "namespace" {
   type        = string
 }
 variable "app_name" {
-  description = "Name of the application"
   type        = string
+  description = "The name of the application."
+}
+variable "environment_name" {
+  description = "Environment to deploy the application to."
+  type        = string
+}
+variable "app_repository_url" {
+  type        = string
+  description = "The URL of the application repository."
 }
 variable "replicas_count" {
   description = "Number of replicas to run for the application"
@@ -14,3 +22,4 @@ variable "static_environment_variables" {
   description = "Static environment variables to be set for the application"
   type        = map(any)
 }
+
