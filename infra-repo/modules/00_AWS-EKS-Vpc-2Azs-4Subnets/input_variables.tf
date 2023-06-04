@@ -1,3 +1,7 @@
+variable "namespace" {
+  description = "Namespace to be used as a prefix for all resources"
+  type        = string
+}
 variable "vpc_cidr_block" {
   description = "VPC CIDR Block. eg: 10.0.0.0/16"
   type        = string

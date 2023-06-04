@@ -1,5 +1,5 @@
 resource "aws_iam_role" "cicd_role" {
-  name = "CICD-Role"
+  name = "${var.namespace}-cicd-Role"
   assume_role_policy = jsonencode({
     Statement = [{
       Action = "sts:AssumeRole"

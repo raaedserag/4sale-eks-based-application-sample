@@ -1,3 +1,7 @@
+variable "namespace" {
+  description = "Namespace to be used as a prefix for all resources"
+  type        = string
+}
 variable "vpc_cidr_block" {
   description = "VPC CIDR Block. eg: 10.0.0.0/16"
   type        = string
@@ -16,9 +20,5 @@ variable "subnet_private_a_cidr_block" {
 }
 variable "subnet_private_b_cidr_block" {
   description = "CIDR Block for private subnet of AZ b"
-  type        = string
-}
-variable "eks_cluster_name" {
-  description = "Name for  EKS cluster"
   type        = string
 }

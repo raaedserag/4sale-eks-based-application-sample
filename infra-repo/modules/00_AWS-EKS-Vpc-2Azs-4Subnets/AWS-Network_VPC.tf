@@ -2,7 +2,9 @@ resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
   enable_dns_support   = true
-
+  tags = {
+    Name = "${var.namespace}-vpc"
+  }
 }
 
 # Subnets
@@ -13,9 +15,9 @@ resource "aws_subnet" "subnet_public_a" {
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
   tags = {
-    Name = "SubnetPublicA"
-    AZ   = "ZoneA"
-    "kubernetes.io/role/elb"   = 1
+    Name                     = "SubnetPublicA"
+    AZ                       = "ZoneA"
+    "kubernetes.io/role/elb" = 1
   }
 }
 
@@ -31,9 +33,9 @@ resource "aws_subnet" "subnet_public_b" {
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = true
   tags = {
-    Name = "SubnetPublicB"
-    AZ   = "ZoneB"
-    "kubernetes.io/role/elb"   = 1
+    Name                     = "SubnetPublicB"
+    AZ                       = "ZoneB"
+    "kubernetes.io/role/elb" = 1
   }
 }
 
@@ -48,8 +50,8 @@ resource "aws_subnet" "subnet_private_a" {
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = false
   tags = {
-    Name                                            = "SubnetPrivateA"
-    AZ                                              = "ZoneA"
+    Name                              = "SubnetPrivateA"
+    AZ                                = "ZoneA"
     "kubernetes.io/role/internal-elb" = 1
   }
 }
@@ -67,8 +69,8 @@ resource "aws_subnet" "subnet_private_b" {
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = false
   tags = {
-    Name                                            = "SubnetPrivateB"
-    AZ                                              = "ZoneB"
+    Name                              = "SubnetPrivateB"
+    AZ                                = "ZoneB"
     "kubernetes.io/role/internal-elb" = 1
   }
 }

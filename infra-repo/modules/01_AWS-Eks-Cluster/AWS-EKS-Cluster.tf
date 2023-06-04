@@ -1,6 +1,6 @@
 # EKS Cluster Service Role
 resource "aws_iam_role" "eks_cluster_service_role" {
-  name = "EKS_Cluster_ServiceRole"
+  name = "${var.namespace}-EKS_ServiceRole"
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   ]
@@ -19,7 +19,7 @@ resource "aws_iam_role" "eks_cluster_service_role" {
 
 # EKS Control Plane Security Group
 resource "aws_security_group" "Eks_ControlPlane_SG" {
-  name        = "Eks_Cluster_SG"
+  name        = "${var.namespace}-Eks_SG"
   vpc_id      = var.eks_vpc_id
   description = "allow All Connection to EKS Cluster"
 }
@@ -37,7 +37,7 @@ resource "aws_security_group_rule" "Eks_ControlPlane_SG_recommended_outbound" {
 
 # EKS Cluster Configuration
 resource "aws_eks_cluster" "main_eks" {
-  name     = var.eks_cluster_name
+  name     = "${var.namespace}-k8s"
   role_arn = aws_iam_role.eks_cluster_service_role.arn
 
   vpc_config {

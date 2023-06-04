@@ -1,6 +1,6 @@
 # EKS EC2 Managed Pod Node Service Role
 resource "aws_iam_role" "eks_ec2_nodes_service_role" {
-  name = "EKS_EC2_Node_ServiceRole"
+  name = "${var.namespace}-EKS_EC2_ServiceRole"
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
@@ -20,14 +20,14 @@ resource "aws_iam_role" "eks_ec2_nodes_service_role" {
 
 
 resource "aws_key_pair" "nodes_key_pair" {
-  key_name   = "eks-nodes-key-pair"
+  key_name   = "${var.namespace}-eks-nodes-key-pair"
   public_key = var.eks_nodes_ssh_public_key
 }
 
 # EKS EC2 Managed Nodes Group
 resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.main_eks.name
-  node_group_name = "eks-node-group"
+  node_group_name = "${var.namespace}-eks-node-group"
   node_role_arn   = aws_iam_role.eks_ec2_nodes_service_role.arn
   subnet_ids = var.eks_private_subnets
   ami_type       = "AL2_x86_64"

@@ -1,4 +1,4 @@
-output "simple_http_cluster" {
+output "eks_cluster" {
   value = aws_eks_cluster.main_eks
 }
 output "workernodes_role_arn" {

@@ -1,7 +1,6 @@
-
-variable "eks_cluster_name" {
+variable "namespace" {
+  description = "Namespace to be used as a prefix for all resources"
   type        = string
-  description = "Name of the EKS cluster"
 }
 
 variable "eks_nodes_ssh_public_key" {

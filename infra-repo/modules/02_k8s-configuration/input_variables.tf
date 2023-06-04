@@ -1,9 +1,13 @@
+variable "namespace" {
+  description = "Namespace to be used as a prefix for all resources"
+  type        = string
+}
 variable "k8s_cluster_config" {
   type = object({
     endpoint               = string
     cluster_ca_certificate = string
     name                   = string
-    arn                   = string
+    arn                    = string
   })
   description = "The configuration of your EKS cluster."
 }
