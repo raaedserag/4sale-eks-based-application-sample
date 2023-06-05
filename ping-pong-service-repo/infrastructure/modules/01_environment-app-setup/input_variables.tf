@@ -14,12 +14,3 @@ variable "app_repository_url" {
   type        = string
   description = "The URL of the application repository."
 }
-variable "replicas_count" {
-  description = "Number of replicas to run for the application"
-  type        = number
-}
-variable "static_environment_variables" {
-  description = "Static environment variables to be set for the application"
-  type        = map(any)
-}
-

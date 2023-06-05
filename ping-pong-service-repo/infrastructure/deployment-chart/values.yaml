@@ -1,0 +1,15 @@
+customer: forsale
+appName: ping-pong
+env: staging
+namespace: forsale-staging
+replicaCount: 1
+
+image:
+  repository: ping-pong
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 80

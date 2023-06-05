@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.appName }}"
+  namespace: "{{ .Values.namespace }}"
+  labels:
+    customer: "{{ .Values.customer }}"
+    app: "{{ .Values.appName }}"
+    environment: "{{ .Values.env }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: "{{ .Values.appName }}"
+  template:
+    metadata:
+      name: "{{ .Values.appName }}"
+      namespace: "{{ .Values.namespace }}"
+      labels:
+        customer: "{{ .Values.customer }}"
+        app: "{{ .Values.appName }}"
+        environment: "{{ .Values.env }}"
+    spec:
+      containers:
+        - name: "{{ .Values.appName }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "{{ .Values.service.targetPort }}"
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: "environment-config"
+                  key: ENVIRONMENT_NAME
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: "mysql-config"
+                  key: MYSQL_HOST
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: "mysql-config"
+                  key: MYSQL_PORT
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: "mysql-config"
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "mysql-config"
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE
+              value: "ping-pong-db"
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
