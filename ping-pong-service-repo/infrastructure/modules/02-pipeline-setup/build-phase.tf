@@ -4,8 +4,6 @@ locals {
     AWS_ACCOUNT_ID     = data.aws_caller_identity.current.account_id
     ECR_REPO_URL       = var.ecr_repository_url
     APP_NAME           = var.app_name
-    DOCKERHUB_USERNAME = local.eks_ops_config.dockerhub_username
-    DOCKERHUB_PASSWORD = local.eks_ops_config.dockerhub_password
   }
 }
 
