@@ -37,7 +37,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "environment-config"
-                  key: ENVIRONMENT_NAME
+                  key: environment_name
             - name: MYSQL_HOST
               valueFrom:
                 secretKeyRef:

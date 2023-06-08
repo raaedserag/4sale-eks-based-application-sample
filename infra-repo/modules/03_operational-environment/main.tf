@@ -27,8 +27,8 @@ provider "aws" {
 locals {
   namespace_prefix = "${var.namespace}-${var.environment_name}"
   environment_config = {
-    ENVIRONMENT_NAME = var.environment_name
-    K8S_NAMESPACE_NAME   = local.namespace_prefix
+    environment_name = var.environment_name
+    k8s_namespace   = local.namespace_prefix
   }
   mysql_config = {
     MYSQL_HOST     = aws_db_instance.current_environment_rds.address

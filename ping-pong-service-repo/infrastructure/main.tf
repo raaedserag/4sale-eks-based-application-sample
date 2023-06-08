@@ -70,7 +70,7 @@ module "staging_app_setup" {
   namespace                    = var.namespace
   app_name                     = var.app_name
   environment_name             = "staging"
-  app_repository_url           = module.shared_app_setup.app_ecr_repository_url
+  ecr_repository_url           = module.shared_app_setup.app_ecr_repository_url
 }
 
 module "production_app_setup" {
@@ -78,5 +78,5 @@ module "production_app_setup" {
   namespace                    = var.namespace
   app_name                     = var.app_name
   environment_name             = "production"
-  app_repository_url           = module.shared_app_setup.app_ecr_repository_url
+  ecr_repository_url           = module.shared_app_setup.app_ecr_repository_url
 }

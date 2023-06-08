@@ -9,8 +9,8 @@ locals {
     "customer"    = var.namespace
     "appName"     = var.app_name
     "env"         = var.environment_name
-    "namespace"   = local.environment_config.K8S_NAMESPACE_NAME
-    "image.repository" = var.app_repository_url
+    "namespace"   = local.environment_config.k8s_namespace
+    "image.repository" = var.ecr_repository_url
   }
 }
 resource "helm_release" "k8s_app_setup" {
