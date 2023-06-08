@@ -1,4 +1,8 @@
 version: 0.2
+env:
+  secrets-manager:
+    DOCKERHUB_USERNAME: "/forsale/eks-ops-config:dockerhub_username"
+    DOCKERHUB_PASSWORD: "/forsale/eks-ops-config:dockerhub_password"
 phases:
   pre_build:
     commands:

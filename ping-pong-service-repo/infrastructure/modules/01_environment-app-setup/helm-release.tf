@@ -14,7 +14,7 @@ locals {
   }
 }
 resource "helm_release" "k8s_app_setup" {
-  name  = var.app_name
+  name  = "${var.app_name}-${var.environment_name}"
   chart = "./deployment-chart"
   wait  = false
   

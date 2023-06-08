@@ -10,7 +10,7 @@ variable "environment_name" {
   description = "Environment to deploy the application to."
   type        = string
 }
-variable "app_repository_url" {
+variable "ecr_repository_url" {
   type        = string
-  description = "The URL of the application repository."
+  description = "The URL of the ECR repository"
 }

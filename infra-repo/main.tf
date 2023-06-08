@@ -60,6 +60,8 @@ module "k8s_config" {
   namespace = var.namespace
   k8s_cluster_config = module.eks_cluster.eks_cluster_config
   workernodes_role_arn = module.eks_cluster.workernodes_role_arn
+  dockerhub_username = var.dockerhub_username
+  dockerhub_password = var.dockerhub_password
 }
 
 # Create operational environments as needed, depending on the variable 'operational_environments'
@@ -74,7 +76,6 @@ module "staging_environment" {
     subnets                     = [module.eks_vpc.subnet_private_a.id, module.eks_vpc.subnet_private_b.id]
     allowed_inbound_cidr_blocks = [module.eks_vpc.subnet_private_a.cidr_block, module.eks_vpc.subnet_private_b.cidr_block]
   }
-
 }
 
 module "production_environment" {
@@ -87,5 +88,4 @@ module "production_environment" {
     subnets                     = [module.eks_vpc.subnet_private_a.id, module.eks_vpc.subnet_private_b.id]
     allowed_inbound_cidr_blocks = [module.eks_vpc.subnet_private_a.cidr_block, module.eks_vpc.subnet_private_b.cidr_block]
   }
-
 }

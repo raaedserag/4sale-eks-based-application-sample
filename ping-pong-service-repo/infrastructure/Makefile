@@ -20,11 +20,23 @@ init:
 		-backend-config="bucket=$(TERRAFORM_BACKEND_S3_BUCKET)" \
 		-backend-config="key=$(CUSTOMER)-$(APP_NAME).tfstate"\
 		-backend-config="region=$(TERRAFORM_BACKEND_S3_REGION)"
-plan:
+
+# Environments management
+plan-env:
 	terraform plan -target=module.$(ENVIRONMENT)_app_setup
-deploy:
+deploy-env:
 	terraform apply -auto-approve -target=module.$(ENVIRONMENT)_app_setup
-destroy:
+destroy-env:
 	terraform destroy -auto-approve -target=module.$(ENVIRONMENT)_app_setup
+
+# Pipeline management
+plan-pipeline:
+	terraform plan -target=module.pipeline_setup
+deploy-pipeline:
+	terraform apply -auto-approve -target=module.pipeline_setup
+destroy-pipeline:
+	terraform destroy -auto-approve -target=module.pipeline_setup
+
+# Destroy all resources
 terminate:
 	terraform destroy -auto-approve

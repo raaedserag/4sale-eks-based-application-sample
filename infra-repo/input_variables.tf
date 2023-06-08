@@ -22,3 +22,11 @@ variable "subnet_private_b_cidr_block" {
   description = "CIDR Block for private subnet of AZ b"
   type        = string
 }
+variable "dockerhub_username" {
+  description = "Dockerhub username"
+  type        = string
+}
+variable "dockerhub_password" {
+  description = "Dockerhub password"
+  type        = string
+}

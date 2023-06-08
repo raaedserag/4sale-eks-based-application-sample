@@ -15,3 +15,11 @@ variable "workernodes_role_arn" {
   type        = string
   description = "The ARN of the role that is used by the worker nodes."
 }
+variable "dockerhub_username" {
+  description = "Dockerhub username"
+  type        = string
+}
+variable "dockerhub_password" {
+  description = "Dockerhub password"
+  type        = string
+}

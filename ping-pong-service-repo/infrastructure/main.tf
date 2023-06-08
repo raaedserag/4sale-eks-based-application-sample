@@ -66,17 +66,27 @@ module "shared_app_setup" {
   app_name  = var.app_name
 }
 module "staging_app_setup" {
-  source                       = "./modules/01_environment-app-setup"
-  namespace                    = var.namespace
-  app_name                     = var.app_name
-  environment_name             = "staging"
-  ecr_repository_url           = module.shared_app_setup.app_ecr_repository_url
+  source             = "./modules/01_environment-app-setup"
+  namespace          = var.namespace
+  app_name           = var.app_name
+  environment_name   = "staging"
+  ecr_repository_url = module.shared_app_setup.app_ecr_repository_url
 }
 
 module "production_app_setup" {
-  source                       = "./modules/01_environment-app-setup"
-  namespace                    = var.namespace
-  app_name                     = var.app_name
-  environment_name             = "production"
-  ecr_repository_url           = module.shared_app_setup.app_ecr_repository_url
+  source             = "./modules/01_environment-app-setup"
+  namespace          = var.namespace
+  app_name           = var.app_name
+  environment_name   = "production"
+  ecr_repository_url = module.shared_app_setup.app_ecr_repository_url
+}
+
+module "pipeline_setup" {
+  source               = "./modules/02-pipeline-setup"
+  namespace            = var.namespace
+  app_name             = var.app_name
+  ecr_repository_url   = module.shared_app_setup.app_ecr_repository_url
+  ecr_repository_arn   = module.shared_app_setup.app_ecr_repository_arn
+  codecommit_repo_name = var.codecommit_repo_name
+  repository_branch    = var.repository_branch
 }
