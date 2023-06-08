@@ -7,7 +7,7 @@ locals {
   }
 }
 
-resource "aws_codebuild_project" "build_phase" {
+resource "aws_codebuild_project" "image_build" {
   name          = "build-${var.app_name}"
   description   = "Build phase for ${var.app_name}"
   build_timeout = "5"
@@ -43,3 +43,38 @@ resource "aws_codebuild_project" "build_phase" {
   }
 }
 
+resource "aws_codebuild_project" "image_test" {
+  name          = "testing-${var.app_name}"
+  description   = "Testing phase for ${var.app_name}"
+  build_timeout = "5"
+  service_role  = data.aws_iam_role.k8s_ops_role.arn
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = "ping-pong-service-repo/pipeline/testing.buildspec.yml"
+  }
+  artifacts {
+    type = "CODEPIPELINE"
+  }
+
+  environment {
+    type                        = "LINUX_CONTAINER"
+    image                       = "aws/codebuild/standard:4.0"
+    compute_type                = "BUILD_GENERAL1_SMALL"
+    image_pull_credentials_type = "CODEBUILD"
+    privileged_mode             = true
+    dynamic "environment_variable" {
+      for_each = local.environment_variables
+      content {
+        name  = environment_variable.key
+        value = environment_variable.value
+      }
+    }
+  }
+
+  logs_config {
+    cloudwatch_logs {
+      group_name  = aws_cloudwatch_log_group.codepipeline_log_group.name
+      stream_name = "${var.app_name}/testing"
+    }
+  }
+}

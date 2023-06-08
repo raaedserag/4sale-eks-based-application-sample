@@ -69,6 +69,15 @@ resource "aws_iam_policy" "codepipeline_privileges" {
         ]
         Effect   = "Allow"
         Resource = "*"
+      },
+      {
+        Action = [
+          "secretsmanager:GetSecretValue",
+        ]
+        Effect   = "Allow"
+        Resource = [
+          data.aws_secretsmanager_secret_version.eks_ops_config.arn
+        ]
       }
     ]
   })

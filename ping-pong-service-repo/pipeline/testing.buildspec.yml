@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=${ECR_REPO_URL}
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Started Automated tests on `date`
+      - docker run -v $(pwd)/test-results:/usr/ping-pong-service/test-results $REPOSITORY_URI:$IMAGE_TAG test
+
+reports:
+  jest_reports:
+    files:
+      - unit-testing-results.xml
+    file-format: JUNITXML
+    base-directory: test-results/jest

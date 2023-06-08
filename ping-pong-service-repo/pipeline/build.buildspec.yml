@@ -6,10 +6,9 @@ env:
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - echo $AWS_DEFAULT_REGION
+      - echo Logging in to DockerHub...
       - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+      - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI=${ECR_REPO_URL}
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
