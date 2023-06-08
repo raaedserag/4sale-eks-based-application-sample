@@ -9,13 +9,13 @@ locals {
     "customer"    = var.namespace
     "appName"     = var.app_name
     "env"         = var.environment_name
-    "namespace"   = local.environment_config.k8s_namespace
     "image.repository" = var.ecr_repository_url
   }
 }
 resource "helm_release" "k8s_app_setup" {
   name  = "${var.app_name}-${var.environment_name}"
   chart = "./deployment-chart"
+  namespace = local.environment_config.k8s_namespace
   wait  = false
   
   dynamic "set" {
