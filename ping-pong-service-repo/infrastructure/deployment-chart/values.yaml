@@ -1,12 +1,12 @@
 customer: forsale
 appName: ping-pong
-env: staging
+env: ""
 replicaCount: 1
 
 image:
-  repository: ping-pong
+  repository: ""
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: ""
 
 service:
   type: LoadBalancer

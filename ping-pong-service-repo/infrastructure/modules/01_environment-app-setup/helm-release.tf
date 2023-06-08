@@ -6,10 +6,9 @@ data "aws_secretsmanager_secret_version" "environment_config" {
 locals {
   environment_config = jsondecode(data.aws_secretsmanager_secret_version.environment_config.secret_string)
   helm_values = {
-    "customer"    = var.namespace
-    "appName"     = var.app_name
     "env"         = var.environment_name
     "image.repository" = var.ecr_repository_url
+    "image.tag"        = "latest"
   }
 }
 resource "helm_release" "k8s_app_setup" {
