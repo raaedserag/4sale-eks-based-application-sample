@@ -38,7 +38,7 @@ resource "aws_codepipeline" "app_pipeline" {
       configuration = {
         ProjectName = aws_codebuild_project.image_build.name
       }
-      run_order = 2
+      run_order = 1
     }
     action {
       name            = "Testing"
@@ -50,64 +50,39 @@ resource "aws_codepipeline" "app_pipeline" {
       configuration = {
         ProjectName = aws_codebuild_project.image_test.name
       }
-      run_order = 3
+      run_order = 2
     }
-
   }
-  stage {
-    name = "Staging-Deployment"
-    action {
-      name            = "Deploy"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["source_output"]
-      version         = "1"
-      configuration = {
-        ProjectName = module.staging_deployment_project.environment_deployment_project_name
+  dynamic "stage" {
+    for_each = var.environments_config
+    content {
+      name = "${title(stage.value.name)}-Deploy"
+      dynamic "action" {
+        for_each = stage.value.manual_approval_required ? [1] : []
+        content {
+          name     = "ManualApproval"
+          category = "Approval"
+          owner    = "AWS"
+          provider = "Manual"
+          version  = "1"
+          configuration = {
+            CustomData = "Please review the changes and approve the deployment"
+          }
+          run_order = 1
+        }
       }
-      run_order = 4
+      action {
+        name            = "Deploy"
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["source_output"]
+        version         = "1"
+        configuration = {
+          ProjectName = module.deployment_phase[stage.value.name].environment_deployment_project_name
+        }
+        run_order = stage.value.manual_approval_required ? 2 : 1
+      }
     }
   }
-  #   stage {
-  #     name = "ManualApproval"
-  #     action {
-  #       name     = "ManualApproval"
-  #       category = "Approval"
-  #       owner    = "AWS"
-  #       provider = "Manual"
-  #       version  = "1"
-  #       configuration = {
-  #         CustomData = "Please review the changes and approve the deployment"
-  #       }
-  #       run_order = 5
-  #     }
-  #   }
-  #   stage {
-  #     name = "Production"
-  #     action {
-  #       name            = "Build"
-  #       category        = "Build"
-  #       owner           = "AWS"
-  #       provider        = "CodeBuild"
-  #       input_artifacts = ["source_output"]
-  #       version         = "1"
-  #       configuration = {
-  #         ProjectName = aws_codebuild_project.production_build.name
-  #       }
-  #       run_order = 6
-  #     }
-  #     action {
-  #       name            = "Deploy"
-  #       category        = "Build"
-  #       owner           = "AWS"
-  #       provider        = "CodeBuild"
-  #       input_artifacts = ["source_output"]
-  #       version         = "1"
-  #       configuration = {
-  #         ProjectName = aws_codebuild_project.production_deploy.name
-  #       }
-  #       run_order = 7
-  #     }
-  #   }
 }

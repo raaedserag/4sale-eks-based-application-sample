@@ -89,4 +89,5 @@ module "pipeline_setup" {
   ecr_repository_arn   = module.shared_app_setup.app_ecr_repository_arn
   codecommit_repo_name = var.codecommit_repo_name
   repository_branch    = var.repository_branch
+  environments_config = var.environments_config
 }

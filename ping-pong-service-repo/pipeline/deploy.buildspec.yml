@@ -18,5 +18,5 @@ phases:
   build:
     commands:
       - echo Deployment started on `date`
-      - helm upgrade --install --force --wait --timeout 600 --set image.repository=$REPOSITORY_URI,image.tag=$IMAGE_TAG $HELM_RELEASE_NAME $HELM_CHART_PATH
+      - helm upgrade --install --force --wait --timeout 5m --set env=$ENVIRONMENT_NAME,image.repository=$REPOSITORY_URI,image.tag=$IMAGE_TAG $HELM_RELEASE_NAME $HELM_CHART_PATH
       - echo Deployment finished on `date`

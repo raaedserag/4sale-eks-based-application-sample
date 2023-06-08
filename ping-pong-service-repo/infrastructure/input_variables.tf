@@ -14,3 +14,9 @@ variable "repository_branch" {
   type        = string
   description = "The name of the repository branch"
 }
+variable "environments_config" {
+  type = list(object({
+    name = string
+    manual_approval_required = bool
+  }))
+}

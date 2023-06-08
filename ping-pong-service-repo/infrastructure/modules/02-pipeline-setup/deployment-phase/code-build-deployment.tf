@@ -4,8 +4,11 @@ locals {
     AWS_ACCOUNT_ID     = data.aws_caller_identity.current.account_id
     ECR_REPO_URL       = var.ecr_repository_url
     APP_NAME           = var.app_name
+    ENVIRONMENT_NAME   = var.environment_name
     EKS_CLUSTER_NAME   = local.environment_config.k8s_cluster_name
     EKS_NAMESPACE      = local.environment_config.k8s_namespace
+    HELM_RELEASE_NAME  = "${var.app_name}-${var.environment_name}"
+    HELM_CHART_PATH    = "../infrastructure/deployment-chart"
   }
 }
 

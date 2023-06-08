@@ -22,27 +22,9 @@ variable "repository_branch" {
   type        = string
   description = "The name of the repository branch"
 }
-# variable "staging_environment_config" {
-#   type = object({
-#     name                           = string
-#     image_repository_url           = string
-#     image_repository_arn           = string
-#     eks_namespace                  = string
-#     deployment_name                = string
-#     simple_http_app_container_name = string
-#     environment_variables          = map(string)
-#   })
-#   description = "The configuration of staging environment"
-# }
-# variable "production_environment_config" {
-#   type = object({
-#     name                           = string
-#     image_repository_url           = string
-#     image_repository_arn           = string
-#     eks_namespace                  = string
-#     deployment_name                = string
-#     simple_http_app_container_name = string
-#     environment_variables          = map(string)
-#   })
-#   description = "The configuration of staging environment"
-# }
+variable "environments_config" {
+  type = list(object({
+    name = string
+    manual_approval_required = bool
+  }))
+}
