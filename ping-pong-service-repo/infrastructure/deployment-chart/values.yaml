@@ -1,7 +1,6 @@
 customer: forsale
 appName: ping-pong
 env: staging
-namespace: forsale-staging
 replicaCount: 1
 
 image:

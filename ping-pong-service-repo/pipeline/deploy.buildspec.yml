@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=${ECR_REPO_URL}
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo configuring kubectl
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      - kubectl config set-context --current --namespace=$EKS_NAMESPACE
+  build:
+    commands:
+      - echo Deployment started on `date`
+      - kubectl get pods
+      - helm version
+      # - kubectl set image deployment/$DEPLOYMENT_NAME $SIMPLE_HTTP_CONTAINER_NAME=$DOCKER_IMAGE
+      # - kubectl rollout status deployment/$DEPLOYMENT_NAME --timeout=5m
+      - echo Deployment finished on `date`

@@ -54,45 +54,21 @@ resource "aws_codepipeline" "app_pipeline" {
     }
 
   }
-  #   stage {
-  #     name = "Staging"
-  #     action {
-  #       name            = "Build"
-  #       category        = "Build"
-  #       owner           = "AWS"
-  #       provider        = "CodeBuild"
-  #       input_artifacts = ["source_output"]
-  #       version         = "1"
-  #       configuration = {
-  #         ProjectName = aws_codebuild_project.staging_build.name
-  #       }
-  #       run_order = 2
-  #     }
-  #     action {
-  #       name            = "Testing"
-  #       category        = "Test"
-  #       owner           = "AWS"
-  #       provider        = "CodeBuild"
-  #       input_artifacts = ["source_output"]
-  #       version         = "1"
-  #       configuration = {
-  #         ProjectName = aws_codebuild_project.staging_test.name
-  #       }
-  #       run_order = 3
-  #     }
-  #     action {
-  #       name            = "Deploy"
-  #       category        = "Build"
-  #       owner           = "AWS"
-  #       provider        = "CodeBuild"
-  #       input_artifacts = ["source_output"]
-  #       version         = "1"
-  #       configuration = {
-  #         ProjectName = aws_codebuild_project.staging_deploy.name
-  #       }
-  #       run_order = 4
-  #     }
-  #   }
+  stage {
+    name = "Staging-Deployment"
+    action {
+      name            = "Deploy"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
+      configuration = {
+        ProjectName = module.staging_deployment_project.environment_deployment_project_name
+      }
+      run_order = 4
+    }
+  }
   #   stage {
   #     name = "ManualApproval"
   #     action {

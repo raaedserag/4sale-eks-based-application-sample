@@ -28,6 +28,7 @@ locals {
   namespace_prefix = "${var.namespace}-${var.environment_name}"
   environment_config = {
     environment_name = var.environment_name
+    k8s_cluster_name = var.k8s_cluster_config.name
     k8s_namespace   = local.namespace_prefix
   }
   mysql_config = {

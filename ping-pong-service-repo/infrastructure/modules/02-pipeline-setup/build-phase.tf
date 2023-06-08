@@ -1,5 +1,5 @@
 locals {
-  environment_variables = {
+  build_stage_environment_variables = {
     AWS_DEFAULT_REGION = data.aws_region.current.name
     AWS_ACCOUNT_ID     = data.aws_caller_identity.current.account_id
     ECR_REPO_URL       = var.ecr_repository_url
@@ -27,7 +27,7 @@ resource "aws_codebuild_project" "image_build" {
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
     dynamic "environment_variable" {
-      for_each = local.environment_variables
+      for_each = local.build_stage_environment_variables
       content {
         name  = environment_variable.key
         value = environment_variable.value
@@ -38,7 +38,7 @@ resource "aws_codebuild_project" "image_build" {
   logs_config {
     cloudwatch_logs {
       group_name  = aws_cloudwatch_log_group.codepipeline_log_group.name
-      stream_name = "${var.app_name}/build"
+      stream_name = "/build"
     }
   }
 }
@@ -63,7 +63,7 @@ resource "aws_codebuild_project" "image_test" {
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
     dynamic "environment_variable" {
-      for_each = local.environment_variables
+      for_each = local.build_stage_environment_variables
       content {
         name  = environment_variable.key
         value = environment_variable.value
@@ -74,7 +74,7 @@ resource "aws_codebuild_project" "image_test" {
   logs_config {
     cloudwatch_logs {
       group_name  = aws_cloudwatch_log_group.codepipeline_log_group.name
-      stream_name = "${var.app_name}/testing"
+      stream_name = "/testing"
     }
   }
 }

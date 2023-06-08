@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "{{ .Values.appName }}"
-  namespace: "{{ .Values.namespace }}"
   labels:
     customer: "{{ .Values.customer }}"
     app: "{{ .Values.appName }}"
@@ -16,7 +15,6 @@ spec:
   template:
     metadata:
       name: "{{ .Values.appName }}"
-      namespace: "{{ .Values.namespace }}"
       labels:
         customer: "{{ .Values.customer }}"
         app: "{{ .Values.appName }}"
