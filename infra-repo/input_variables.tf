@@ -38,3 +38,8 @@ variable "enable_public_grafana" {
   description = "Enable public access to grafana"
   type        = bool
 }
+variable "operational_environments" {
+  type = list(object({
+    name = string
+  }))
+}

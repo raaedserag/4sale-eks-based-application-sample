@@ -24,6 +24,31 @@ provider "aws" {
     }
   }
 }
+provider "kubernetes" {
+  host                   = module.eks_cluster.eks_cluster_config.endpoint
+  cluster_ca_certificate = base64decode(module.eks_cluster.eks_cluster_config.cluster_ca_certificate)
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", module.eks_cluster.eks_cluster_config.name]
+    command     = "aws"
+  }
+  ignore_annotations = [
+    "^service\\.beta\\.kubernetes\\.io\\/aws-load-balancer.*",
+    "cni\\.projectcalico\\.org\\/podIP",
+    "cni\\.projectcalico\\.org\\/podIPs",
+  ]
+}
+provider "helm" {
+  kubernetes {
+    host                   = module.eks_cluster.eks_cluster_config.endpoint
+    cluster_ca_certificate = base64decode(module.eks_cluster.eks_cluster_config.cluster_ca_certificate)
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      args        = ["eks", "get-token", "--cluster-name", module.eks_cluster.eks_cluster_config.name]
+      command     = "aws"
+    }
+  }
+}
 
 # VPC Module
 # As an alternative to this module we can use the AWS VPC module(https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest)
@@ -54,6 +79,7 @@ module "eks_cluster" {
   ]
 }
 
+
 # K8s Configuration Module
 module "k8s_ops_config" {
   source               = "./modules/02_k8s-ops-setup"
@@ -65,30 +91,19 @@ module "k8s_ops_config" {
 }
 
 module "eks_prometheus_grafana" {
-  source  = "./modules/04_prometheus_grafana"
+  source  = "./modules/03_prometheus_grafana"
   k8s_cluster_config = module.eks_cluster.eks_cluster_config
   grafana_admin_password = var.grafana_admin_password
   enable_public_grafana = var.enable_public_grafana
 }
 
 # Create operational environments as needed, depending on the variable 'operational_environments'
-# This is a list of objects, each object has a key 'environment_name'
-module "staging_environment" {
-  source             = "./modules/03_operational-environment"
+# This is a list of objects, each object has a key 'name'
+module "operational_environment" {
+  source             = "./modules/04_operational-environment"
+  for_each           = { for env in var.operational_environments : env.name => env }
   namespace          = var.namespace
-  environment_name   = "staging"
-  k8s_cluster_config = module.eks_cluster.eks_cluster_config
-  rds_config = {
-    vpc_id                      = module.eks_vpc.vpc.id
-    subnets                     = [module.eks_vpc.subnet_private_a.id, module.eks_vpc.subnet_private_b.id]
-    allowed_inbound_cidr_blocks = [module.eks_vpc.subnet_private_a.cidr_block, module.eks_vpc.subnet_private_b.cidr_block]
-  }
-}
-
-module "production_environment" {
-  source             = "./modules/03_operational-environment"
-  namespace          = var.namespace
-  environment_name   = "production"
+  environment_name   = each.value.name
   k8s_cluster_config = module.eks_cluster.eks_cluster_config
   rds_config = {
     vpc_id                      = module.eks_vpc.vpc.id

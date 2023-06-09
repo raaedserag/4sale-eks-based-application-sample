@@ -65,19 +65,12 @@ module "shared_app_setup" {
   namespace = var.namespace
   app_name  = var.app_name
 }
-module "staging_app_setup" {
+module "environment_app_setup" {
   source             = "./modules/01_environment-app-setup"
+  for_each           = { for env in var.environments_config : env.name => env }
   namespace          = var.namespace
   app_name           = var.app_name
-  environment_name   = "staging"
-  ecr_repository_url = module.shared_app_setup.app_ecr_repository_url
-}
-
-module "production_app_setup" {
-  source             = "./modules/01_environment-app-setup"
-  namespace          = var.namespace
-  app_name           = var.app_name
-  environment_name   = "production"
+  environment_name   = each.value.name
   ecr_repository_url = module.shared_app_setup.app_ecr_repository_url
 }
 
@@ -89,5 +82,5 @@ module "pipeline_setup" {
   ecr_repository_arn   = module.shared_app_setup.app_ecr_repository_arn
   codecommit_repo_name = var.codecommit_repo_name
   repository_branch    = var.repository_branch
-  environments_config = var.environments_config
+  environments_config  = var.environments_config
 }

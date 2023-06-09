@@ -85,11 +85,4 @@ resource "aws_codepipeline" "app_pipeline" {
       }
     }
   }
-
-  depends_on = [
-    aws_codebuild_project.image_build,
-    aws_codebuild_project.image_test,
-    module.deployment_phase,
-    aws_iam_policy_attachment.codepipeline_privileges_attachment
-  ]
 }

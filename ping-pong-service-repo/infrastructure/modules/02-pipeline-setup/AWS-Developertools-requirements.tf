@@ -4,6 +4,7 @@ data "aws_iam_role" "k8s_ops_role" {
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
   bucket_prefix = "${var.namespace}-${var.app_name}-pipeline-artifacts"
+  force_destroy = true
 }
 resource "aws_cloudwatch_log_group" "codepipeline_log_group" {
   name = "/${var.namespace}/${var.app_name}/pipeline"
@@ -74,7 +75,7 @@ resource "aws_iam_policy" "codepipeline_privileges" {
         Action = [
           "secretsmanager:GetSecretValue",
         ]
-        Effect   = "Allow"
+        Effect = "Allow"
         Resource = [
           data.aws_secretsmanager_secret_version.eks_ops_config.arn
         ]

@@ -23,7 +23,7 @@ locals {
 
 module "deployment_phase" {
   source   = "./deployment-phase"
-  for_each = { for env in var.environments_config : env.name => env}
+  for_each = { for env in var.environments_config : env.name => env }
 
   namespace                 = var.namespace
   app_name                  = var.app_name

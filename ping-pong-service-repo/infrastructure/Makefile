@@ -5,11 +5,6 @@ export $(shell sed 's/=.*//' .env)
 RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(RUN_ARGS):;@:)
 ENVIRONMENT := $(wordlist 1,1,${RUN_ARGS})
-IsSharedEnvironment := false
-
-ifeq (${ENVIRONMENT},shared)
-IsSharedEnvironment := true
-endif
 
 export TF_VAR_environment_name=$(ENVIRONMENT)
 export TF_VAR_namespace=$(CUSTOMER)
@@ -23,11 +18,11 @@ init:
 
 # Environments management
 plan-env:
-	terraform plan -target=module.$(ENVIRONMENT)_app_setup
+	terraform plan -target=module.environment_app_setup[\"$(ENVIRONMENT)\"]
 deploy-env:
-	terraform apply -auto-approve -target=module.$(ENVIRONMENT)_app_setup
+	terraform apply -auto-approve -target=module.environment_app_setup[\"$(ENVIRONMENT)\"]
 destroy-env:
-	terraform destroy -auto-approve -target=module.$(ENVIRONMENT)_app_setup
+	terraform destroy -auto-approve -target=module.environment_app_setup[\"$(ENVIRONMENT)\"]
 
 # Pipeline management
 plan-pipeline:
