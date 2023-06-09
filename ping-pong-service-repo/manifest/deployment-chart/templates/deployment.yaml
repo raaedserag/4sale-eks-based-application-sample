@@ -31,6 +31,8 @@ spec:
           env:
             - name: PORT
               value: "{{ .Values.service.targetPort }}"
+            - name: NODE_CONFIG_DIR
+              value: "./src/config/environments"
             - name: NODE_ENV
               valueFrom:
                 secretKeyRef:
