@@ -28,7 +28,7 @@ class MysqlClientConnection {
                 user: mysqlConfiguration.user,
                 password: mysqlConfiguration.password,
             });
-            await initialConnection.query(`CREATE DATABASE IF NOT EXISTS "${mysqlConfiguration.database}";`);
+            await initialConnection.query(`CREATE DATABASE IF NOT EXISTS ${mysqlConfiguration.database};`);
             await initialConnection.end();
             await this.ping();
 
