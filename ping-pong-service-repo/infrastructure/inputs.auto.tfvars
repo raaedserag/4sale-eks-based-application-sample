@@ -1,5 +1,5 @@
 codecommit_repo_name = "ping-pong"
-repository_branch = "feature/build-pipeline"
+repository_branch = "master"
 environments_config = [
     {
         name = "staging"

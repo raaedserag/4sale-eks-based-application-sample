@@ -38,27 +38,5 @@ resource "kubernetes_service" "grafana_external" {
     }
     type = "LoadBalancer"
   }
-}
-
-// expose prometheus dashboard
-resource "kubernetes_service" "prometheus_external"{
-  metadata {
-    name      = "${local.service_name}-prometheus-external"
-    namespace = local.namespace
-    labels = {
-      "app.kubernetes.io/name"       = "prometheus-external"
-      "app.kubernetes.io/managed-by" = "Terraform"
-    }
-  }
-  spec {
-    selector = {
-      "app.kubernetes.io/instance" = local.service_name
-      "app.kubernetes.io/name"     = "prometheus"
-    }
-    port {
-      port        = 80
-      target_port = 3000
-    }
-    type = "LoadBalancer"
-  }
+  depends_on = [helm_release.prometheus_eks_setup]
 }

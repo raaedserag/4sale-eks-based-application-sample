@@ -8,7 +8,7 @@ locals {
     EKS_CLUSTER_NAME   = local.environment_config.k8s_cluster_name
     EKS_NAMESPACE      = local.environment_config.k8s_namespace
     HELM_RELEASE_NAME  = "${var.app_name}-${var.environment_name}"
-    HELM_CHART_PATH    = "../infrastructure/deployment-chart"
+    HELM_CHART_PATH    = "./ping-pong-service-repo/infrastructure/deployment-chart"
   }
 }
 
