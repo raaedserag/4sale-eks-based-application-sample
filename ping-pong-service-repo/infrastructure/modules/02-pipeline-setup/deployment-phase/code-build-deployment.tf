@@ -8,7 +8,7 @@ locals {
     EKS_CLUSTER_NAME   = local.environment_config.k8s_cluster_name
     EKS_NAMESPACE      = local.environment_config.k8s_namespace
     HELM_RELEASE_NAME  = "${var.app_name}-${var.environment_name}"
-    HELM_CHART_PATH    = "./ping-pong-service-repo/infrastructure/deployment-chart"
+    HELM_CHART_PATH    = "./ping-pong-service-repo/manifest/deployment-chart"
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_codebuild_project" "environment_deployment" {
   service_role  = var.pipeline_service_role_arn
   source {
     type      = "CODEPIPELINE"
-    buildspec = "ping-pong-service-repo/pipeline/deploy.buildspec.yml"
+    buildspec = "ping-pong-service-repo/manifest/pipeline/deploy.buildspec.yml"
   }
   artifacts {
     type = "CODEPIPELINE"

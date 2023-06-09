@@ -14,7 +14,7 @@ resource "aws_codebuild_project" "image_build" {
   service_role  = data.aws_iam_role.k8s_ops_role.arn
   source {
     type      = "CODEPIPELINE"
-    buildspec = "ping-pong-service-repo/pipeline/build.buildspec.yml"
+    buildspec = "ping-pong-service-repo/manifest/pipeline/build.buildspec.yml"
   }
   artifacts {
     type = "CODEPIPELINE"
@@ -50,7 +50,7 @@ resource "aws_codebuild_project" "image_test" {
   service_role  = data.aws_iam_role.k8s_ops_role.arn
   source {
     type      = "CODEPIPELINE"
-    buildspec = "ping-pong-service-repo/pipeline/testing.buildspec.yml"
+    buildspec = "ping-pong-service-repo/manifest/pipeline/testing.buildspec.yml"
   }
   artifacts {
     type = "CODEPIPELINE"
