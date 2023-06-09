@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import mysql from "mysql2/promise";
 import { setTimeout } from "timers/promises"
 import { mysqlConfiguration } from "../config/configuration.js";
 
@@ -18,10 +19,16 @@ class MysqlClientConnection {
     async ping() {
         await this.connection.authenticate();
         console.log("Connection has been established successfully.");
-
     }
     async initialize() {
         try {
+            const initialConnection = await mysql.createConnection({
+                host: mysqlConfiguration.host,
+                port: mysqlConfiguration.port,
+                user: mysqlConfiguration.user,
+                password: mysqlConfiguration.password,
+            });
+            await initialConnection.query(`CREATE DATABASE IF NOT EXISTS ${mysqlConfiguration.database};`);
             await this.ping();
 
         } catch (error) {
