@@ -55,8 +55,8 @@ module "eks_cluster" {
 }
 
 # K8s Configuration Module
-module "k8s_config" {
-  source               = "./modules/02_k8s-configuration"
+module "k8s_ops_config" {
+  source               = "./modules/02_k8s-ops-setup"
   namespace            = var.namespace
   k8s_cluster_config   = module.eks_cluster.eks_cluster_config
   workernodes_role_arn = module.eks_cluster.workernodes_role_arn
@@ -64,7 +64,7 @@ module "k8s_config" {
   dockerhub_password   = var.dockerhub_password
 }
 
-module "eks_grafana_prometheus" {
+module "eks_prometheus_grafana" {
   source  = "./modules/04_prometheus_grafana"
   k8s_cluster_config = module.eks_cluster.eks_cluster_config
   grafana_admin_password = var.grafana_admin_password

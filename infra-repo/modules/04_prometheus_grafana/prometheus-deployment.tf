@@ -1,5 +1,5 @@
 locals {
-  service_name = "prometheus-eks-setup"
+  service_name = "eks-monitoring"
   namespace    = "monitoring"
 }
 resource "helm_release" "prometheus_eks_setup" {
