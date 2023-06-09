@@ -30,3 +30,11 @@ variable "dockerhub_password" {
   description = "Dockerhub password"
   type        = string
 }
+variable "grafana_admin_password" {
+  description = "Grafana admin password"
+  type        = string
+}
+variable "enable_public_grafana" {
+  description = "Enable public access to grafana"
+  type        = bool
+}

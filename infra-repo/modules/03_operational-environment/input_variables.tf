@@ -11,6 +11,7 @@ variable "k8s_cluster_config" {
     endpoint               = string
     cluster_ca_certificate = string
     name                   = string
+    arn                    = string
   })
   description = "The configuration of your EKS cluster."
 }

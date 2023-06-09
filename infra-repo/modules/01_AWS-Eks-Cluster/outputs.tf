@@ -4,7 +4,6 @@ output "eks_cluster_config" {
     cluster_ca_certificate = aws_eks_cluster.main_eks.certificate_authority[0].data
     name                   = aws_eks_cluster.main_eks.id
     arn                    = aws_eks_cluster.main_eks.arn
-
   }
 }
 # Export EKS cluster config to AWS Secrets Manager

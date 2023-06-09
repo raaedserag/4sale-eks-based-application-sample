@@ -56,20 +56,27 @@ module "eks_cluster" {
 
 # K8s Configuration Module
 module "k8s_config" {
-  source    = "./modules/02_k8s-configuration"
-  namespace = var.namespace
-  k8s_cluster_config = module.eks_cluster.eks_cluster_config
+  source               = "./modules/02_k8s-configuration"
+  namespace            = var.namespace
+  k8s_cluster_config   = module.eks_cluster.eks_cluster_config
   workernodes_role_arn = module.eks_cluster.workernodes_role_arn
-  dockerhub_username = var.dockerhub_username
-  dockerhub_password = var.dockerhub_password
+  dockerhub_username   = var.dockerhub_username
+  dockerhub_password   = var.dockerhub_password
+}
+
+module "eks_grafana_prometheus" {
+  source  = "./modules/04_prometheus_grafana"
+  k8s_cluster_config = module.eks_cluster.eks_cluster_config
+  grafana_admin_password = var.grafana_admin_password
+  enable_public_grafana = var.enable_public_grafana
 }
 
 # Create operational environments as needed, depending on the variable 'operational_environments'
 # This is a list of objects, each object has a key 'environment_name'
 module "staging_environment" {
-  source    = "./modules/03_operational-environment"
-  namespace = var.namespace
-  environment_name = "staging"
+  source             = "./modules/03_operational-environment"
+  namespace          = var.namespace
+  environment_name   = "staging"
   k8s_cluster_config = module.eks_cluster.eks_cluster_config
   rds_config = {
     vpc_id                      = module.eks_vpc.vpc.id
@@ -79,9 +86,9 @@ module "staging_environment" {
 }
 
 module "production_environment" {
-  source    = "./modules/03_operational-environment"
-  namespace = var.namespace
-  environment_name = "production"
+  source             = "./modules/03_operational-environment"
+  namespace          = var.namespace
+  environment_name   = "production"
   k8s_cluster_config = module.eks_cluster.eks_cluster_config
   rds_config = {
     vpc_id                      = module.eks_vpc.vpc.id
