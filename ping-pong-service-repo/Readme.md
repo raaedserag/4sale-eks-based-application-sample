@@ -1,6 +1,30 @@
 # 4Sale - Ping Pong Service Repository
 This repository contains the source code for the Ping Pong service, in addition to the necessary infrastructure code to deploy the service to AWS EKS cluster.
 
+# Table of Contents
+- [Directory Structure](#directory-structure)
+- [Application](#application)
+  - [Stack](#stack)
+  - [Environment Variables](#environment-variables)
+  - [Running the application](#running-the-application)
+  - [Endpoints](#endpoints)
+  - [Database](#database)
+  - [Testing](#testing)
+  - [Containerization](#containerization)
+- [Manifest](#manifest)
+    - [deployment-chart](#deployment-chart)
+    - [pipeline](#pipeline)
+- [Infrastructure](#infrastructure)
+    - [Modules](#modules)
+    - [Operational Environments](#operational-environments)
+    - [Usage](#usage)
+        - [Remote Repository](#remote-repository)
+        - [Environment Variables](#environment-variables-1)
+        - [Configurations](#configurations)
+        - [Commands](#commands)
+    - [Final Application Setup Diagram](#final-application-setup-diagram)
+    - [Final CI/CD Pipeline Diagram](#final-cicd-pipeline-diagram)
+
 # Directory Structure
 The repository is structured as follows:
 ```
@@ -181,12 +205,12 @@ The make file will help you to deploy the changes against each environment separ
     ```
     This command will destroy all the infrastructure and the pipeline related to this repository.
 
-## Final Application Setup
+## Final Application Setup Diagram
 The application deployment per environment would look like the following:
 
 ![Application Deployment](./docs/4SALE-PingPong-Final-Setup.png)
 
-## Final CI/CD Pipeline
+## Final CI/CD Pipeline Diagram
 Assuming that we have 2 environments: `staging` and `production`, and the `production` requires manual approval.
 
 the CI/CD pipeline would look like the following:
