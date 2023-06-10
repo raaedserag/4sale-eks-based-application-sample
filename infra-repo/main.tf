@@ -92,8 +92,8 @@ module "k8s_ops_config" {
   dockerhub_password   = var.dockerhub_password
 }
 
-module "eks_prometheus_grafana" {
-  source  = "./modules/03_prometheus_grafana"
+module "monitoring" {
+  source  = "./modules/03_monitoring"
   k8s_cluster_config = module.eks_cluster.eks_cluster_config
   grafana_admin_password = var.grafana_admin_password
   enable_public_grafana = var.enable_public_grafana

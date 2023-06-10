@@ -29,7 +29,7 @@ plan:
 		-target=module.eks_vpc \
 		-target=module.eks_cluster \
 		-target=module.k8s_ops_config \
-		-target=module.eks_prometheus_grafana \
+		-target=module.monitoring \
 		-target=module.operational_environment[\"$(ENVIRONMENT)\"]
 
 deploy:
@@ -41,7 +41,7 @@ deploy:
 
 	terraform apply -auto-approve \
 		-target=module.k8s_ops_config \
-		-target=module.eks_prometheus_grafana \
+		-target=module.monitoring \
 		-target=module.operational_environment[\"$(ENVIRONMENT)\"]
 destroy:
 	terraform destroy -auto-approve \
