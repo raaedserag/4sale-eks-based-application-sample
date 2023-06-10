@@ -44,18 +44,18 @@ resource "aws_eks_node_group" "eks_node_group" {
   node_group_name = "${var.namespace}-eks-node-group"
   node_role_arn   = aws_iam_role.eks_ec2_nodes_service_role.arn
   subnet_ids      = var.eks_private_subnets
-  ami_type        = "AL2_x86_64"
-  capacity_type   = "ON_DEMAND"
-  disk_size       = 20
-  instance_types  = ["t3.medium"]
+  ami_type        = var.instance_config.ami_type
+  capacity_type   = var.instance_config.capacity_type
+  disk_size       = var.instance_config.disk_size
+  instance_types  = var.instance_config.instance_types
   scaling_config {
-    desired_size = 2
-    max_size     = 2
-    min_size     = 2
+    desired_size = var.scaling_config.desired_size
+    max_size     = var.scaling_config.max_size
+    min_size     = var.scaling_config.min_size
   }
 
   update_config {
-    max_unavailable = 1
+    max_unavailable = var.scaling_config.max_unavailable
   }
   remote_access {
     ec2_ssh_key = aws_key_pair.nodes_key_pair.id

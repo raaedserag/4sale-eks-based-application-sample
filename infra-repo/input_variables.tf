@@ -12,6 +12,23 @@ variable "vpc_config" {
     subnet_private_b_cidr_block = string
   })
 }
+variable "eks_nodes_config" {
+  description = "EKS nodes configuration"
+  type = object({
+    scaling_config = object({
+      desired_size = number
+      max_size     = number
+      min_size     = number
+      max_unavailable = number
+    })
+    instance_config = object({
+      ami_type       = string
+      capacity_type  = string
+      disk_size      = number
+      instance_types = list(string)
+    })
+  })
+}
 variable "dockerhub_username" {
   description = "Dockerhub username"
   type        = string

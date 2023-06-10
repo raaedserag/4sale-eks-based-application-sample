@@ -19,3 +19,22 @@ variable "eks_public_subnets"{
   type = list(string)
   description = "List of public subnets to use for the EKS cluster"
 }
+
+variable "scaling_config"{
+  type = object({
+    desired_size = number
+    max_size     = number
+    min_size     = number
+    max_unavailable = number
+  })
+  description = "Scaling configuration for EKS nodes"
+}
+variable "instance_config"{
+  type = object({
+    ami_type       = string
+    capacity_type  = string
+    disk_size      = number
+    instance_types = list(string)
+  })
+  description = "Instance configuration for EKS nodes"
+}

@@ -77,6 +77,8 @@ module "eks_cluster" {
     module.eks_vpc.subnet_public_a.id,
     module.eks_vpc.subnet_public_b.id
   ]
+  scaling_config = var.eks_nodes_config.scaling_config
+  instance_config = var.eks_nodes_config.instance_config
 }
 
 
