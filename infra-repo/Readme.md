@@ -105,7 +105,7 @@ You need to set the environment variables in the `.env` file exactly as the [exa
 | TF_VAR_grafana_admin_password | The grafana admin password to use for grafana |
 
 ## Commands
-After configuring environment variables, now you can run the following commands:
+The make file will help you to deploy the changes against each environment separately, so you can use the following commands:
 
 - First, you need to configure the aws cli profile to use for terraform, by running the following command:
     ```bash
