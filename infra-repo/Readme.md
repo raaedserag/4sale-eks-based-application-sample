@@ -1,8 +1,18 @@
 # 4Sale - Centralized Infrastructure Repository
-
-# Overview
 This repository contains the terraform IAC for the 4Sale main infrastructure, used to manage the centralized components, such as the VPC, EKS cluster, and the monitoring and logging tools.
 
+# Table of Contents
+- [Modules](#modules)
+  - [VPC](#vpc)
+  - [EKS Cluster](#eks-cluster)
+  - [EKS Operations Setup](#eks-operations-setup)
+  - [Monitoring](#monitoring)
+  - [Operational Environment](#operational-environment)
+- [Tools](#tools)
+- [Usage](#usage)
+  - [Environment Variables](#environment-variables)
+  - [Commands](#commands)
+  
 
 # Modules
 The IAC is divided into modules, each module is responsible for a specific part of the infrastructure. The modules are as follows:
