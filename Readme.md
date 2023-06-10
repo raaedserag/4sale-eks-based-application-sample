@@ -22,5 +22,6 @@ The following assumptions were made:
 - Each application has its own pipeline structure which is defined in the application repository.
 
 
-## [Infrastructure Repository](./infra-repo)
-## [Application Repository](./ping-pong-service-repo)
+You can find design and getting started instructions in each repository:
+## [Centralized Infrastructure Repository](./infra-repo)
+## [Ping Pong Application Repository](./ping-pong-service-repo)
