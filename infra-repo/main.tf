@@ -55,11 +55,11 @@ provider "helm" {
 module "eks_vpc" {
   source                      = "./modules/00_AWS-EKS-Vpc-2Azs-4Subnets"
   namespace                   = var.namespace
-  vpc_cidr_block              = var.vpc_cidr_block
-  subnet_public_a_cidr_block  = var.subnet_public_a_cidr_block
-  subnet_private_a_cidr_block = var.subnet_private_a_cidr_block
-  subnet_public_b_cidr_block  = var.subnet_public_b_cidr_block
-  subnet_private_b_cidr_block = var.subnet_private_b_cidr_block
+  vpc_cidr_block              = var.vpc_config.cidr_block
+  subnet_public_a_cidr_block  = var.vpc_config.subnet_public_a_cidr_block
+  subnet_private_a_cidr_block = var.vpc_config.subnet_private_a_cidr_block
+  subnet_public_b_cidr_block  = var.vpc_config.subnet_public_b_cidr_block
+  subnet_private_b_cidr_block = var.vpc_config.subnet_private_b_cidr_block
 }
 
 # EKS Module
