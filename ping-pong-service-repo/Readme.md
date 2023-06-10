@@ -106,7 +106,7 @@ This directory contains the `buildspec files` for the CI/CD pipeline. we have th
 The infrastructure is divided into the following modules:
 
 | Module | Description | Resources |
-| --------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| -------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | [Shared App Setup](./infrastructure/modules/00_shared-app-setup) | This module provisions the application specific resources that are shared between all environments. | - AWS ECR Repository |
 | [Environment Setup](./infrastructure/modules/01_environment-app-setup) | This module provisions the environment specific resources. | - K8S Helm release for the application. |
 | [Pipeline Setup](./infrastructure/modules/02-pipeline-setup) | This module provisions the CI/CD pipeline. | - CodeCommit Trigger. <br> - IAM Roles and policies. <br> - CodePipeline. <br> - Artifacts S3 Bucket <br> - CodeBuild Projects. |
